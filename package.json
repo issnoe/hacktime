@@ -1,19 +1,28 @@
 {
   "name": "hacktime",
   "version": "0.1.0",
+  "main": "public/electron.js",
+  "homepage": "./",
+  "productName": "hacktime",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^7.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "realm": "^12.12.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "electron .",
+    "build": "craco build",
+    "package": "electron-builder build --mac -c.extraMetadata.main=build/electron.js --publish never",
+    "publish": "electron-builder build --mac  --publish always",
+    "start:web": "react-scripts start",
+    "start-electron": "export ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "build:web": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -34,5 +43,29 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "electron": "^31.3.0",
+    "electron-builder": "^24.13.3",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "build": {
+    "appId": "com.electron.hacktime",
+    "files": [
+      "build",
+      "node_modules"
+    ],
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
   }
 }
