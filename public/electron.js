@@ -16,6 +16,12 @@ function createWindow() {
   // and load the index.html of the app.
   console.log(__dirname);
   mainWindow.loadFile(path.join(__dirname, "../build/index.html"));
+  mainWindow.isAlwaysOnTop(true);
+  // TODO: Add this logic every time that the timer is 3 seconds left
+  // setTimeout(() => {
+  mainWindow.isAlwaysOnTop(true);
+  mainWindow.show();
+  //}, 10000);
 }
 
 // This method will be called when Electron has finished
