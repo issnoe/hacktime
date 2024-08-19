@@ -3,6 +3,7 @@ import "./App.css";
 import { useState } from "react";
 import List from "./components/list";
 import AddInput from "./components/add";
+import { UserProvider } from "./state/userContext";
 
 function App() {
   const [tasks, setTask] = useState([]);
@@ -22,10 +23,10 @@ function App() {
     setTask(_tasks);
   };
   return (
-    <div>
+    <UserProvider>
       <AddInput handleTask={handleTask}></AddInput>
       <List list={tasks} updateCompleated={updateCompleated}></List>
-    </div>
+    </UserProvider>
   );
 }
 

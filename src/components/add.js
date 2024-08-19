@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../state/userContext";
 const AddInput = ({ handleTask }) => {
+  const { user } = useContext(UserContext);
   const [description, setDescription] = useState("");
   const [time, setTime] = useState(undefined);
+  useEffect(() => {
+    console.log("User context", user);
+  }, []);
   return (
     <div>
       <input
