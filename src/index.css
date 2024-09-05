@@ -1,13 +1,102 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#root {
+  display: flex;
+  justify-content: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+form input {
+  outline: solid 1px #dbdedf;
+  margin: 10px;
+  border-radius: 20px;
+
+  height: 40px;
+  padding: 6px 1rem;
+}
+
+input.addText {
+  width: 21rem;
+}
+
+input.addNumber {
+  width: 2.6rem;
+}
+
+input:hover,
+input:focus {
+  outline: solid 2px #00bbff;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+  display: none;
+}
+
+
+.main {
+  display: flex;
+}
+
+.timerContainer {
+
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 8px;
+  align-items: center;
+}
+
+.time {
+  font-size: 32px;
+}
+.actions {
+  
+}
+.timerBox {
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  background: #f3f3f3;
+}
+
+.focusSelectedContainer {
+  position: absolute;
+  background: #efefef;
+  padding: 0.6rem 1rem;
+  width: 14rem;
+  align-items: center;
+  text-align: center;
+  border-radius: 25px;
+  border: 1px solid #cfcfcf;
+  margin: 1rem 0;
+
+}
+
+.taskContainer {
+  margin: 6rem 3rem;
+}
+.task-item {
+  display: flex;
+  padding: 6px 1rem;
+}
+
+.gray-color {
+  color: #8080805c;
+}
+
+.green-color {
+  color: #05ad05cc;
+}
+
+.btn-primary {
+  background: #efefef;
+  padding: 0.6rem 1rem;
+  width: 14rem;
+  align-items: center;
+  text-align: center;
+  border-radius: 25px;
+  border: 1px solid #cfcfcf;
+  margin: 1rem 0;
 }

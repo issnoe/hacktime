@@ -1,5 +1,4 @@
 import React from "react";
-
 const List = ({ list, updateCompleated }) => {
   return (
     <ul>

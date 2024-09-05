@@ -1,8 +1,7 @@
-const electron = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
+const { db, insertTask, insertUser, updateTask } = require("../src/database");
 
 let mainWindow;
 
@@ -28,3 +27,72 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on("ready", createWindow);
+
+// Example: Handling an IPC event to get users from the database
+ipcMain.handle("get-users", async () => {
+  return new Promise((resolve, reject) => {
+    db.all("SELECT * FROM users", [], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+});
+
+ipcMain.handle("fetch-tasks", async () => {
+  return new Promise((resolve, rejected) => {
+    db.all("SELECT * FROM tasks", [], (err, rows) => {
+      if (err) {
+        rejected(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+});
+
+// IPC handler to insert a user
+ipcMain.handle("insert-user", async (event, name, email) => {
+  try {
+    const result = await insertUser(name, email);
+    return result;
+  } catch (error) {
+    console.error("Error inserting user:", error);
+    throw error;
+  }
+});
+
+// IPC handler to insert a user
+ipcMain.handle(
+  "insert-task",
+  async (event, description, time, project, completed) => {
+    try {
+      const result = await insertTask(description, time, project, completed);
+      return result;
+    } catch (error) {
+      console.error("Error inserting user:", error);
+      throw error;
+    }
+  }
+);
+
+ipcMain.handle(
+  "update-task",
+  async (event, id, description, time, project, completed) => {
+    try {
+      const result = await updateTask(
+        id,
+        description,
+        time,
+        project,
+        completed
+      );
+      return result;
+    } catch (error) {
+      console.error("Error inserting user:", error);
+      throw error;
+    }
+  }
+);

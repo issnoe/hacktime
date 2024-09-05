@@ -6,21 +6,22 @@
   "productName": "hacktime",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^7.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-scripts": "5.0.1",
-    "realm": "^12.12.1"
+    "realm": "^12.12.1",
+    "sqlite3": "^5.1.7"
   },
   "scripts": {
-    "start": "electron .",
+    "deploy:local": "craco build && electron-builder build --mac  --publish always && electron .",
+    "start": "craco build &&  electron .",
     "build": "craco build",
     "package": "electron-builder build --mac -c.extraMetadata.main=build/electron.js --publish never",
     "publish": "electron-builder build --mac  --publish always",
-    "start:web": "react-scripts start",
+    "start:web": "NODE_ENV=development craco start",
     "start-electron": "export ELECTRON_START_URL=http://localhost:3000 && electron .",
     "build:web": "react-scripts build",
     "test": "react-scripts test",
@@ -45,8 +46,12 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^7.1.0",
+    "autoprefixer": "^10.4.20",
     "electron": "^31.3.0",
     "electron-builder": "^24.13.3",
+    "postcss": "^8.4.41",
+    "tailwindcss": "^3.4.10",
     "webpack-node-externals": "^3.0.0"
   },
   "build": {

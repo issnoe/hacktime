@@ -1,9 +1,14 @@
 //import Realm from "realm";
 import "./App.css";
+import "./index.css";
 import { useState } from "react";
-import List from "./components/list";
-import AddInput from "./components/add";
+import List from "./components/listWithContext";
+import AddInput from "./components/addWithContext";
 import { UserProvider } from "./state/userContext";
+import { TaskProvider } from "./state/taskContextWithReducer";
+import Timer from "./components/timer";
+import { TimeProvider } from "./state/timerContextWithReducer";
+import TimerFocus from "./components/timeWithContext";
 
 function App() {
   const [tasks, setTask] = useState([]);
@@ -23,10 +28,22 @@ function App() {
     setTask(_tasks);
   };
   return (
-    <UserProvider>
-      <AddInput handleTask={handleTask}></AddInput>
-      <List list={tasks} updateCompleated={updateCompleated}></List>
-    </UserProvider>
+    <TaskProvider>
+      <TimeProvider>
+        <UserProvider>
+          <TimerFocus></TimerFocus>
+          <div className="main">
+            <div className="timerBox">
+              <Timer></Timer>
+            </div>
+            <div className="taskContainer">
+              <AddInput handleTask={handleTask}></AddInput>
+              <List list={tasks} updateCompleated={updateCompleated}></List>
+            </div>
+          </div>
+        </UserProvider>
+      </TimeProvider>
+    </TaskProvider>
   );
 }
 
