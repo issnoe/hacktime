@@ -1,7 +1,13 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 
-const { db, insertTask, insertUser, updateTask } = require("../src/database");
+const {
+  db,
+  insertTask,
+  insertUser,
+  updateTask,
+  insertTimer,
+} = require("../src/database");
 
 let mainWindow;
 
@@ -32,6 +38,20 @@ app.on("ready", createWindow);
 ipcMain.handle("get-users", async () => {
   return new Promise((resolve, reject) => {
     db.all("SELECT * FROM users", [], (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
+      }
+    });
+  });
+});
+
+ipcMain.handle("get-times-by-day", async () => {
+  return new Promise((resolve, reject) => {
+    const thisDay = `'1726%'`;
+    // "SELECT * FROM timers where date LIKE ?;",
+    db.all("SELECT * FROM timers ;", [], (err, rows) => {
       if (err) {
         reject(err);
       } else {
@@ -96,3 +116,13 @@ ipcMain.handle(
     }
   }
 );
+
+ipcMain.handle("insert-timer", async (event, taskId, timeSeconds) => {
+  try {
+    const result = await insertTimer(taskId, timeSeconds);
+    return result;
+  } catch (error) {
+    console.error("Error inserting timer:", error);
+    throw error;
+  }
+});

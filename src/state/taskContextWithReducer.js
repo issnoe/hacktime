@@ -1,6 +1,7 @@
 import status from "./status";
 import { booleanOppositive } from "../lib/global";
-const { createContext, useReducer } = require("react");
+import TimerContext from "../state/timerContextWithReducer";
+const { createContext, useReducer, useContext } = require("react");
 const { ipcRenderer } = require("electron");
 // {
 //   id: 0,
@@ -58,6 +59,7 @@ const TaskContext = createContext();
 
 export const TaskProvider = ({ children }) => {
   const [tasks, dispatch] = useReducer(reducer, init);
+  const { timer } = useContext(TimerContext);
 
   const getTask = async () => {
     return new Promise((resolve, rejected) => {
@@ -105,6 +107,19 @@ export const TaskProvider = ({ children }) => {
       });
   };
 
+  const addTimer = (taskId, timeStart) => {
+    console.log(taskId, timeStart);
+    ipcRenderer
+      .invoke("insert-timer", taskId, timeStart)
+      .then(async (result) => {
+        console.log(taskId, timeStart, result);
+      })
+      .catch((error) => {
+        //  dispatch({ type: actionTypes.UPDATE_SUCCESS });
+        console.log(taskId, timeStart, error);
+      });
+  };
+
   const markAsCompleated = (task) => {
     dispatch({ type: actionTypes.UPDATE_START });
     const { description, time, project, completed, id } = task;
@@ -113,6 +128,12 @@ export const TaskProvider = ({ children }) => {
       .invoke("update-task", id, description, time, project, _compleated)
       .then(async (result) => {
         const _tasks = await getTask();
+        if (completed == 0) {
+          //  console.log("timer", task, timerSeconds);
+          const { timeStart = 0 } = timer.data;
+          console.log(timer);
+          addTimer(id, timeStart);
+        }
         dispatch({
           type: actionTypes.UPDATE_SUCCESS,
           payload: _tasks,
@@ -122,7 +143,7 @@ export const TaskProvider = ({ children }) => {
         dispatch({ type: actionTypes.UPDATE_FAILURE });
       });
   };
-
+  console.log("rendering");
   return (
     <TaskContext.Provider value={{ tasks, add, markAsCompleated, fetchData }}>
       {children}

@@ -22,6 +22,14 @@ db.serialize(() => {
   db.run(
     "CREATE TABLE if NOT EXISTS tasks (id integer  PRIMARY key , description text, time integer, project text, completed bool )"
   );
+
+  db.run("CREATE INDEX if NOT EXISTS idx_task_id ON tasks(id);");
+  db.run("CREATE INDEX if NOT EXISTS idx_timer_task_id ON timers(taskId);");
+  db.run("PRAGMA foreign_keys = ON;");
+  db.run(
+    "CREATE TABLE if NOT EXISTS  timers ( id INTEGER PRIMARY KEY,taskId INTEGER,date REAL,timer INTEGER,FOREIGN KEY (taskId) REFERENCES tasks(id) ON DELETE CASCADE);"
+  );
+  //"CREATE TABLE if NOT EXISTS  timers ( id INTEGER PRIMARY KEY,taskId INTEGER, timer INTEGER);"
 });
 
 // Insert function
@@ -30,6 +38,23 @@ function insertUser(name, email) {
     db.run(
       "INSERT INTO users (name, email) VALUES (?, ?)",
       [name, email],
+      function (err) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve({ id: this.lastID });
+        }
+      }
+    );
+  });
+}
+
+function insertTimer(taskId, timeSeconds) {
+  return new Promise((resolve, reject) => {
+    const now = Date.now();
+    db.run(
+      "INSERT INTO timers (taskId, timer,date) VALUES (?,?,?)",
+      [taskId, timeSeconds, now],
       function (err) {
         if (err) {
           reject(err);
@@ -72,4 +97,4 @@ function updateTask(id, description, time, project, completed) {
     );
   });
 }
-module.exports = { db, insertTask, insertUser, updateTask };
+module.exports = { db, insertTask, insertUser, updateTask, insertTimer };

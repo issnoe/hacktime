@@ -8,7 +8,7 @@ const AddInput = ({ handleTask }) => {
 
   const { add } = useContext(TaskContext);
   const inputText = useRef(null);
-
+  console.log("rendering");
   return (
     <div className="entryContainer">
       <form

@@ -28,8 +28,8 @@ function App() {
     setTask(_tasks);
   };
   return (
-    <TaskProvider>
-      <TimeProvider>
+    <TimeProvider>
+      <TaskProvider>
         <UserProvider>
           <TimerFocus></TimerFocus>
           <div className="main">
@@ -42,8 +42,8 @@ function App() {
             </div>
           </div>
         </UserProvider>
-      </TimeProvider>
-    </TaskProvider>
+      </TaskProvider>
+    </TimeProvider>
   );
 }
 
