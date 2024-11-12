@@ -39,13 +39,11 @@ const ItemList = ({ list, markAsCompleated, focusSelected = () => {} }) => {
 
 const List = () => {
   const { tasks, markAsCompleated, fetchData } = useContext(TaskContext);
-  const { timer, focusSelected, fetchTimes } = useContext(TimerContext);
+  const { focusSelected } = useContext(TimerContext);
   const [showList, setShowList] = useState(false);
   useEffect(() => {
     fetchData();
-    fetchTimes();
   }, []);
-  console.log();
   const completedTasks = tasks.data.filter((x) => x.completed === 1);
   const todoTasks = tasks.data.filter((x) => x.completed === 0);
   const message = showList ? "Show completed tasks" : "Hide completed tasks";

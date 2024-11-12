@@ -9,6 +9,7 @@ import { TaskProvider } from "./state/taskContextWithReducer";
 import Timer from "./components/timer";
 import { TimeProvider } from "./state/timerContextWithReducer";
 import TimerFocus from "./components/timeWithContext";
+import ListTimes from "./components/timeListWithContext";
 
 function App() {
   const [tasks, setTask] = useState([]);
@@ -32,6 +33,7 @@ function App() {
       <TaskProvider>
         <UserProvider>
           <TimerFocus></TimerFocus>
+          <ListTimes></ListTimes>
           <div className="main">
             <div className="timerBox">
               <Timer></Timer>

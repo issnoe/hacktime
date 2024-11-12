@@ -4,6 +4,7 @@ export const booleanOppositive = (value) => {
 
 
 export const formatDate = (now) => {
+  if (!now) return "";
   // Step 2: Create a Date object from the timestamp
   const currentDate = new Date(now);
 
@@ -14,9 +15,12 @@ export const formatDate = (now) => {
 
   // Step 4: Ensure month is in 'MM' format (e.g., 09 for September)
   month = month < 10 ? `0${month}` : month;
+  const hr = currentDate.getHours();
+  const minutes = currentDate.getMinutes();
+  const seconds = currentDate.getSeconds();
 
   // Format the date as 'DD/MM/YYYY'
-  const formattedDate = `${day}/${month}/${year}`;
+  return `${day}/${month}/${year} ${hr}${minutes}${seconds}`;
 };
 
 export const transformSecondsToClock = (seconds) => {

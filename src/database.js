@@ -27,7 +27,7 @@ db.serialize(() => {
   db.run("CREATE INDEX if NOT EXISTS idx_timer_task_id ON timers(taskId);");
   db.run("PRAGMA foreign_keys = ON;");
   db.run(
-    "CREATE TABLE if NOT EXISTS  timers ( id INTEGER PRIMARY KEY,taskId INTEGER,date REAL,timer INTEGER,FOREIGN KEY (taskId) REFERENCES tasks(id) ON DELETE CASCADE);"
+    "CREATE TABLE if NOT EXISTS  timers ( id INTEGER PRIMARY KEY,taskId INTEGER,dateStart INTEGER,dateEnd INTEGER,FOREIGN KEY (taskId) REFERENCES tasks(id) ON DELETE CASCADE);"
   );
   //"CREATE TABLE if NOT EXISTS  timers ( id INTEGER PRIMARY KEY,taskId INTEGER, timer INTEGER);"
 });
@@ -49,12 +49,12 @@ function insertUser(name, email) {
   });
 }
 
-function insertTimer(taskId, timeSeconds) {
+function insertTimer(taskId, dateStart) {
   return new Promise((resolve, reject) => {
-    const now = Date.now();
+    const dateEnd = Date.now();
     db.run(
-      "INSERT INTO timers (taskId, timer,date) VALUES (?,?,?)",
-      [taskId, timeSeconds, now],
+      "INSERT INTO timers (taskId, dateStart, dateEnd) VALUES (?,?,?)",
+      [taskId, dateStart, dateEnd],
       function (err) {
         if (err) {
           reject(err);

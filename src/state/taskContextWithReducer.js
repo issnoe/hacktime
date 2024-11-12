@@ -107,16 +107,16 @@ export const TaskProvider = ({ children }) => {
       });
   };
 
-  const addTimer = (taskId, timeStart) => {
-    console.log(taskId, timeStart);
+  const addTimer = (taskId, dateStart) => {
+    console.log(taskId, dateStart);
     ipcRenderer
-      .invoke("insert-timer", taskId, timeStart)
+      .invoke("insert-timer", taskId, dateStart)
       .then(async (result) => {
-        console.log(taskId, timeStart, result);
+        console.log(taskId, dateStart, result);
       })
       .catch((error) => {
         //  dispatch({ type: actionTypes.UPDATE_SUCCESS });
-        console.log(taskId, timeStart, error);
+        console.log(taskId, dateStart, error);
       });
   };
 
